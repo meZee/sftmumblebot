@@ -1,5 +1,5 @@
 class Plugin():
-	command = "!hello"
+	command = "#hello"
 
 	def __init__(self, mumble, irc):
 		self.mumble = mumble
