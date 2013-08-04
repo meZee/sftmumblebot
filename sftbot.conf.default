@@ -10,6 +10,7 @@ port=64738               ; this is mumble-standard
 nickname=Text-Bridge			 ; nickname of the bot in mumble
 channel=channelname		 ; name of the channel to join
 password=orleaveitempty  
+tokens=					; tokens seperated by spaces
 
 loglevel=1				; this determines how many logs about mumble are displayed on the console
 
@@ -18,6 +19,7 @@ loglevel=1				; this determines how many logs about mumble are displayed on the 
 server=yourfather.com
 port=6667                ;this is irc-standard
 nickname=Text-Bridge
+password=				; empty for no password
 channel=channelname
 encoding=utf-8
 
