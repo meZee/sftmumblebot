@@ -64,28 +64,28 @@ def consoleTextMessageCallback(sender, message):
 def mumbleDisconnected():
 	line="connection to mumble lost. reconnect in 5 seconds."
 	console.sendTextMessage(line)
-	irc.sendTextMessage(line)
+	#irc.sendTextMessage(line)
 	time.sleep(5)
 	mumble.start()
 
 def mumbleConnectionFailed():
 	line="connection to mumble failed. retrying in 15 seconds."
 	console.sendTextMessage(line)
-	irc.sendTextMessage(line)
+	#irc.sendTextMessage(line)
 	time.sleep(15)
 	mumble.start()
 
 def ircDisconnected():
 	line="connection to irc lost. reconnect in 15 seconds."
 	console.sendTextMessage(line)
-	mumble.sendTextMessage(line)
+	#mumble.sendTextMessage(line)
 	time.sleep(15)
 	irc.start()
 
 def ircConnectionFailed():
 	line="connection to irc failed. retrying in 15 seconds."
 	console.sendTextMessage(line)
-	mumble.sendTextMessage(line)
+	#mumble.sendTextMessage(line)
 	time.sleep(15)
 	irc.start()
 
