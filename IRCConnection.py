@@ -16,7 +16,7 @@ class IRCConnection(AbstractConnection.AbstractConnection):
 		self._channel = channel
 		self._encoding = encoding
 		# the socket that will be used for communication with the IRC server:
-		_socket = None
+		self._socket = None
 
 	# open the socket and return true. don't catch exceptions, since the run() wrapper will do that.
 	def _openConnection(self):
@@ -51,6 +51,7 @@ class IRCConnection(AbstractConnection.AbstractConnection):
 
 	# close the socket.
 	def _closeConnection(self):
+		self._sendMessage("QUIT");
 		self._socket.shutdown(socket.SHUT_RDWR)
 		self._socket.close()
 		return True
@@ -96,13 +97,25 @@ class IRCConnection(AbstractConnection.AbstractConnection):
 
 	# pass the given line to _sendMessage, encoded as a PRIVMSG to #self._channel.
 	def _sendTextMessageUnsafe(self, message):
-		#strip html foo from message via Endloesungs-re
-		message = self._endloesung.sub(repl="", string=message)
-
 		return self._sendMessage("PRIVMSG #" + self._channel + " :" + message)
+
+	# send /AWAY command to IRC server with optional message (if no message then mark no longer away)
+	def setAway(self, message=None):
+		if not self._established:
+			self._log("can't set IRC away status since connection not established", 1)
+			return False
+
+		if message:
+			return self._sendMessage("AWAY" + " :" + message)
+		else:
+			return self._sendMessage("AWAY")
 	# send the given line via the socket. don't catch any exceptions.
 	def _sendMessageUnsafe(self, message):
 		self._log("tx: " + message, 3)
-		self._socket.send(message.encode(self._encoding, errors='ignore') + "\n")
+		try:
+			self._socket.send(message.encode(self._encoding, errors='ignore') + "\n")
+		except Exception as e:
+			self._log("failed sending %s: " % (message) + str(e), 1)
+			return False
 		return True
-
+	
